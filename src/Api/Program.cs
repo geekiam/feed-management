@@ -1,10 +1,12 @@
 using Api.Behaviours;
 using Api.Middleware;
+using Domain;
+using Domain.Websites;
 using FluentValidation;
 using Geekiam.Persistence;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Models;
 using Serilog;
 using Services;
 using Threenine;
@@ -49,7 +51,7 @@ builder.Services.AddDbContext<FeedsDbContext>(x => x.UseNpgsql(connectionString)
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddTransient(typeof(IEntityValidationService<>),typeof(EntityValidationService<>));
 builder.Services.AddTransient(typeof(IDataService<>), typeof(DataService<>));
-builder.Services.AddTransient<ISiteService, SiteService>();
+builder.Services.AddTransient<IDomainService<Website,string>,WebsiteService>();
 
 
 var app = builder.Build();

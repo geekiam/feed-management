@@ -6,7 +6,7 @@ using Threenine.ApiResponse;
 
 namespace Api.Activities.Website.Queries.Get;
 
-[Route(Routes.Website)]
+[Route(Routes.Websites)]
 public class Get : EndpointBaseAsync.WithRequest<Query>.WithActionResult<SingleResponse<Response>>
 {
     private readonly IMediator _mediator;
@@ -21,7 +21,7 @@ public class Get : EndpointBaseAsync.WithRequest<Query>.WithActionResult<SingleR
         Summary = "Get",
         Description = "Get",
         OperationId = "a858baa0-9318-4f6c-8fc1-c5c6274b82df",
-        Tags = new[] { Routes.Website})
+        Tags = new[] { Routes.Websites})
     ]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
     [ProducesErrorResponseType(typeof(BadRequestObjectResult))]
