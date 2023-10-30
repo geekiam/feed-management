@@ -1,9 +1,9 @@
 using Api.Behaviours;
 using Api.Middleware;
 using Domain;
-using Domain.Websites;
 using FluentValidation;
 using Geekiam.Persistence;
+using Geekiam.Websites.Get;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Models;

@@ -3,13 +3,13 @@
 
 ### Get Tests
 < {%
-    request.variables.set("identifier", "g_bitcoinist_0001")
+    request.variables.set("identifier", "g_garywoodfine_0001")
 %}
 GET {{host}}/{{websites_resource_name}}/{{identifier}}
 accept: application/json
 Content-Type: application/json
 
-> ../../Asserts/Should_be_200_Ok.js
+> ../../Asserts/Websites/Get/Should_be_200_Ok.js
 
 ###
 
