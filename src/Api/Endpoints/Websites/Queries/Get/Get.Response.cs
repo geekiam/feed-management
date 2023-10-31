@@ -11,6 +11,7 @@ public class Response
     public string Description { get; set; }
     
    public IReadOnlyCollection<Feed> Feeds { get; set; }
+   public IReadOnlyList<string> Categories { get; set; }
 }
 
 public class Feed

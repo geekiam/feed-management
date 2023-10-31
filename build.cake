@@ -1,5 +1,4 @@
 ﻿#tool "dotnet:?package=GitVersion.Tool&version=5.10.3"
-#addin nuget:?package=Cake.Docker&version=1.1.2
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 string version = String.Empty;
@@ -104,37 +103,7 @@ Task("Publish")
 
 });
 
-Task("Docker-Login")
- .IsDependentOn("Publish")
-.Does(() => {
-  
-   if (BuildSystem.GitHubActions.IsRunningOnGitHubActions || BuildSystem.IsRunningOnBitbucketPipelines)
-     {
-        var loginSettings = new DockerRegistryLoginSettings{ Password = EnvironmentVariable("REGISTRY_TOKEN") , Username= "USERNAME" };
-        DockerLogin(loginSettings, $"{containerRegistry}");
-    }
-});
 
-Task("Docker-Build")
- .IsDependentOn("Docker-Login")
-.Does(() => {
-    
-     packageName = $"{containerRegistry}/{ rootNamespace.ToLower() }/{ projectTag.ToLower() }";
-       string [] tags = new string[]  {  $"{ packageName}:{version}"};
-      Information("Building : Docker Image");
-    var settings = new DockerImageBuildSettings { Tag=tags};
-    DockerBuild(settings, "./");
-});
-
-Task("Docker-Push")
- .IsDependentOn("Docker-Build")
-.Does(() => {
-   if (BuildSystem.GitHubActions.IsRunningOnGitHubActions || BuildSystem.IsRunningOnBitbucketPipelines)
-   {
-      Information("Pushing : Docker Image");
-      DockerPush( $"{ rootNamespace.ToLower() }/{ projectTag.ToLower() }:{version}");
-    }
-});
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
@@ -146,9 +115,6 @@ Task("Default")
        .IsDependentOn("Version")
        .IsDependentOn("Build")
        .IsDependentOn("Test")
-       .IsDependentOn("Publish")
-       .IsDependentOn("Docker-Login")
-       .IsDependentOn("Docker-Build")
-       .IsDependentOn("Docker-Push");
+       .IsDependentOn("Publish");
 
 RunTarget(target);

@@ -7,7 +7,9 @@ public record Website(string Name, string Domain, string Description) : Aggregat
     public string Name { get; private set; } = Name;
     public string Domain { get; private set; } = Domain;
     public string Description { get; private set; } = Description;
-    public List<Feed> Feeds { get; set; }
+    public List<Feed> Feeds { get; init; }
+    
+    public List<string> Categories { get; set; }
     
     
 }

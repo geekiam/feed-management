@@ -22,12 +22,19 @@ public class WebsiteService : IDomainService<Website, string>
        
         var source = await _unitOfWork.GetReadOnlyRepositoryAsync<Sources>()
             .SingleOrDefaultAsync(predicate: x => x.Identifier.Equals(identifier),
-            include: inc => inc.Include(x => x.Feeds).Include(x => x.Status).Include(X => X.Feeds).ThenInclude(X => X.MediaType));
+            include: inc => inc.Include(x => x.Feeds)
+                .Include(x => x.Status)
+                .Include(X => X.Feeds)
+                .ThenInclude(X => X.MediaType)
+                .Include(x => x.Categories)
+                .ThenInclude(x => x.Category)
+            );
 
         var website = new Website(source.Name, source.ToString(), source.Description)
         {
             Feeds = source.Feeds.Select( x => new Feed { Path = x.Path, Type = x.MediaType.Name}
-            ).ToList()
+            ).ToList(),
+            Categories = source.Categories.Select(x => x.Category.Name).ToList()
         };
         return website;
     }

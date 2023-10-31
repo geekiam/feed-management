@@ -3,9 +3,9 @@
 
 ### Get Tests
 < {%
-    request.variables.set("identifier", "g_garywoodfine_0001")
+    request.variables.set("id", "g_garywoodfine_0001")
 %}
-GET {{host}}/{{websites_resource_name}}/{{identifier}}
+GET {{host}}/{{websites_resource_name}}/{{id}}
 accept: application/json
 Content-Type: application/json
 

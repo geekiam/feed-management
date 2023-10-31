@@ -1,6 +1,7 @@
 using Ardalis.ApiEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Swashbuckle.AspNetCore.Annotations;
 using Threenine.ApiResponse;
 
@@ -10,10 +11,12 @@ namespace Api.Activities.Website.Queries.Get;
 public class Get : EndpointBaseAsync.WithRequest<Query>.WithActionResult<SingleResponse<Response>>
 {
     private readonly IMediator _mediator;
+    private readonly ILogger<Get> _logger;
 
-    public Get(IMediator mediator)
+    public Get(IMediator mediator, ILogger<Get> logger)
     {
         _mediator = mediator;
+        _logger = logger;
     }
         
     [HttpGet("{identifier}")]
@@ -37,6 +40,7 @@ public class Get : EndpointBaseAsync.WithRequest<Query>.WithActionResult<SingleR
     
     private Task<ActionResult> HandleErrors(List<KeyValuePair<string, string[]>> errors)
     {
+        _logger.LogError("Error Executing {0} - {1}", nameof(Get), errors[0].Key);
         ActionResult result = null;
         errors.ForEach(error =>
         {
