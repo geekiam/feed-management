@@ -1,7 +1,3 @@
-using System;
-using Azure.Core;
-using Domain;
-
 namespace Api.Activities.Website.Queries.Get;
 
 public class Response

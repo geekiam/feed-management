@@ -7,7 +7,7 @@ public class Mapping : Profile
 {
     public Mapping()
     {
-        CreateMap<Geekiam.Websites.Get.Website, Response>(MemberList.None)
+        CreateMap<Geekiam.Websites.Website, Response>(MemberList.None)
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.Domain, opt => opt.MapFrom(src => src.Domain))

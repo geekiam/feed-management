@@ -3,7 +3,7 @@ using Api.Middleware;
 using Domain;
 using FluentValidation;
 using Geekiam.Persistence;
-using Geekiam.Websites.Get;
+using Geekiam.Websites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Models;
@@ -52,6 +52,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddTransient(typeof(IEntityValidationService<>),typeof(EntityValidationService<>));
 builder.Services.AddTransient(typeof(IDataService<>), typeof(DataService<>));
 builder.Services.AddTransient<IDomainService<Website,string>,WebsiteService>();
+builder.Services.AddTransient<IFactory<Listing>, ListingFactory>();
 
 
 var app = builder.Build();

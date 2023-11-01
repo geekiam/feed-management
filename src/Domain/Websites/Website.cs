@@ -1,6 +1,6 @@
 ﻿using Domain;
 
-namespace Geekiam.Websites.Get;
+namespace Geekiam.Websites;
 
 public record Website(string Name, string Domain, string Description) : AggregateRoot<Website,string>
 {
@@ -9,7 +9,7 @@ public record Website(string Name, string Domain, string Description) : Aggregat
     public string Description { get; private set; } = Description;
     public List<Feed> Feeds { get; init; }
     
-    public List<string> Categories { get; set; }
+    public List<string> Categories { get; init; }
     
     
 }

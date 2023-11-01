@@ -1,7 +1,7 @@
 using Api.Activities.Website.Queries.Get;
 using AutoMapper;
 using FizzWare.NBuilder;
-using Geekiam.Websites.Get;
+using Geekiam.Websites;
 using Shouldly;
 using Xunit;
 using Feed = Domain.Feed;
