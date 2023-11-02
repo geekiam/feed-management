@@ -1,33 +1,28 @@
 ﻿using Domain;
+using Geekiam.Persistence;
 using Geekiam.Websites;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using Threenine.Data;
+
 
 namespace Services;
 
-public class WebsiteService : IDomainService<Website, string>
+public class WebsiteService : BaseService, IDomainService<Website, string>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    
-    public WebsiteService(IUnitOfWork unitOfWork)
+    private readonly FeedsDbContext _dbContext;
+
+    public WebsiteService(FeedsDbContext dbContext) : base(dbContext)
     {
-        _unitOfWork = unitOfWork;
-        
+        _dbContext = dbContext;
+      
     }
 
     public async Task<Website> Get(string identifier)
     {
-       
-        var source = await _unitOfWork.GetReadOnlyRepositoryAsync<Sources>()
-            .SingleOrDefaultAsync(predicate: x => x.Identifier.Equals(identifier),
-            include: inc => inc.Include(x => x.Feeds)
-                .Include(x => x.Status)
-                .Include(x => x.Feeds)
-                .ThenInclude(x => x.MediaType)
-                .Include(x => x.Categories)
-                .ThenInclude(x => x.Category)
-            );
+
+        var source = await BaseSourcesQuery
+            .SingleOrDefaultAsync(x => x.Identifier.Equals(identifier));
+     
 
         return new Website(source.Name, source.ToString(), source.Description)
         {
@@ -37,8 +32,11 @@ public class WebsiteService : IDomainService<Website, string>
         };
     }
 
-    public Task Create(Website domain)
-    {
-        throw new NotImplementedException();
-    }
+    private IQueryable<Sources> BaseSourcesQuery => _dbContext.Set<Sources>()
+        .Include(x => x.Feeds)
+        .Include(x => x.Status)
+        .Include(x => x.Feeds)
+        .ThenInclude(x => x.MediaType)
+        .Include(x => x.Categories)
+        .ThenInclude(x => x.Category);
 }

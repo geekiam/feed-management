@@ -46,11 +46,13 @@ builder.Services.AddMediatR(cfg =>
     cfg.AddOpenBehavior(typeof(ValidationBehaviour<,>));
 });
 var connectionString = builder.Configuration.GetConnectionString(ConnectionsStringName);
-builder.Services.AddDbContext<FeedsDbContext>(x => x.UseNpgsql(connectionString)).AddUnitOfWork<FeedsDbContext>();
+builder.Services.AddDbContext<FeedsDbContext>(x => x.UseNpgsql(connectionString, b => b.MigrationsAssembly(typeof(FeedsDbContext).Assembly.FullName)),
+    ServiceLifetime.Transient);
+builder.Services.AddScoped<FeedsDbContext>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddTransient(typeof(IEntityValidationService<>),typeof(EntityValidationService<>));
-builder.Services.AddTransient(typeof(IDataService<>), typeof(DataService<>));
+
 builder.Services.AddTransient<IDomainService<Website,string>,WebsiteService>();
 builder.Services.AddTransient<IFactory<Listing>, ListingFactory>();
 

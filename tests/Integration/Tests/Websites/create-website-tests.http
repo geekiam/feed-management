@@ -1,0 +1,32 @@
+
+
+
+< {%
+    request.variables.set("domain", "test1.com")
+%}
+
+POST {{host}}/{{websites_resource_name}}
+accept: text/plain
+Content-Type: application/json-patch+json
+
+{
+  "body": {
+    "name": "test",
+    "domain": "{{domain}}",
+    "protocol": "https",
+    "description": "blah blah blah",
+    "feeds": [
+      {
+        "path": "/rss/rss.xml",
+        "type": "application/rss+xml"
+      }
+    ],
+    "categories": [
+      "Bitcoin",
+      "Penis"
+    ]
+  }
+}
+
+###
+
