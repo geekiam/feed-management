@@ -30,6 +30,8 @@ public class Get : EndpointBaseAsync.WithRequest<Query>.WithActionResult<SingleR
     [ProducesErrorResponseType(typeof(BadRequestObjectResult))]
     public override async Task<ActionResult<SingleResponse<Response>>> HandleAsync([FromRoute] Query request, CancellationToken cancellationToken = new())
     {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        
         var result = await _mediator.Send(request, cancellationToken);
        
         if (result.IsValid)

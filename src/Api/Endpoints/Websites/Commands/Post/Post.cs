@@ -32,6 +32,8 @@ public class Post : EndpointBaseAsync.WithRequest<Command>.WithActionResult<Sing
     [ProducesResponseType(StatusCodes.Status201Created)]
     public override async Task<ActionResult<SingleResponse<Response>>> HandleAsync([FromBody] Command request, CancellationToken cancellationToken = new())
     {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        
         var result = await _mediator.Send(request, cancellationToken);
         
         if (result.IsValid)

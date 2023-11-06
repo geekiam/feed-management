@@ -21,5 +21,7 @@ public static class RegularExpressions
     /// Common relative path structure validation
     /// </summary>
     public const string RelativeUrlPath = @"^([\/][a-zA-Z]+)+\.*(((\?)([a-zA-Z]*=\w*)){1}((&)([a-zA-Z]*=\w*))*)?$";
-    
+
+    public const string IdentifierValidator = @"^g_[a-zA-Z]+_\d{4}$";
+
 }

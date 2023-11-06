@@ -86,6 +86,6 @@ public class ListingFactory :BaseService, IFactory<Listing>
     {
         var domainParts = domain.Split('.').ToArray();
         var id = domainParts[0] != "www" ? domainParts[0] : domainParts[2];
-        return $"g_{id}_{new Random().Next(1, 9999)}";
+        return $"g_{id}_{new Random().Next(1, 9999):D4}";
     }
 }

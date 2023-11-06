@@ -1,16 +1,14 @@
 using Api.Behaviours;
 using Api.Middleware;
-using Domain;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Geekiam.Persistence;
 using Geekiam.Websites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Models;
 using Serilog;
 using Services;
 using Threenine;
-using Threenine.Data.DependencyInjection;
 using Threenine.Services;
 
 const string ConnectionsStringName = "Default";
@@ -38,6 +36,8 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations();
 });
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblies(new[] { typeof(Program).Assembly , typeof(FeedsDbContext).Assembly});
 builder.Services.AddMediatR(cfg =>
 {
